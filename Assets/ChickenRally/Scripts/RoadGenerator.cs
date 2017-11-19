@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour
 {
-	Mesh mesh;
-
 	public float rad;
-	int len = 100;
-	Vector3[] vertices;
-	int[] triangles;
-	float displacement = 1;
 
-	float r;
-	int lr = 0;
-	float add = 0;
+	int len = 100;
+    int[] triangles;
+
+    Vector3[] vertices;
+    Mesh mesh;
+
+    float add = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -25,55 +23,13 @@ public class RoadGenerator : MonoBehaviour
 		triangles = new int[len * 6];
 
 		StartCoroutine("CreateRoadPiece", len);
-	}
+    }
 
-	void GetRandom () {
-		r = Random.value;
+	void GetRandom (int i)
+    { 
+        float f = i * 0.1f;
 
-		if (r < 0.33)
-		{
-			if(add == -1)
-			{
-				if(Random.value > 0.5)
-				{
-					add = 0;
-				}
-				else
-				{
-					add = -2;
-				}
-			}
-			else if (add == 1)
-			{
-				add = 0;
-			}
-			else
-			{
-				add = -1;
-			}
-		}
-		else if (r < 0.66)
-		{
-			if (add == 1)
-			{
-				if (Random.value > 0.5)
-				{
-					add = 0;
-				}
-				else
-				{
-					add = 2;
-				}
-			}
-			else if(add == -1)
-			{
-				add = 0;
-			}
-			else
-			{
-				add = 1;
-			}
-		}
+        add = Mathf.PerlinNoise(f, 0) * 50 - 25;
 	}
 
 	IEnumerator CreateRoadPiece(int n)
@@ -81,7 +37,7 @@ public class RoadGenerator : MonoBehaviour
 		yield return new WaitForSeconds(0.1f);
 		for (int i = 0; i < n; i++)
 		{
-			GetRandom();
+			GetRandom(i);
 
 			if (i == 0)
 			{
@@ -94,11 +50,6 @@ public class RoadGenerator : MonoBehaviour
 				vertices[4 * i + 1] = vertices[4 * i - 1];
 				vertices[4 * i] = vertices[4 * i - 2];
 			}
-
-			if (r == 0)
-				add = -displacement;
-			else if (r == 2)
-				add = displacement;
 
 			vertices[4 * i + 2] = new Vector3(vertices[4 * i].x + add, 0, rad * i * 2);
 			vertices[4 * i + 3] = new Vector3(vertices[4 * i + 1].x + add, 0, rad * i * 2);
