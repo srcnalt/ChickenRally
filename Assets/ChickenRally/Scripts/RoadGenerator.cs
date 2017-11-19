@@ -5,7 +5,8 @@ using UnityEngine;
 public class RoadGenerator : MonoBehaviour
 {
 	Mesh mesh;
-	float rad = 2;
+
+	public float rad;
 	int len = 100;
 	Vector3[] vertices;
 	int[] triangles;
@@ -20,7 +21,7 @@ public class RoadGenerator : MonoBehaviour
 		mesh = GetComponent<MeshFilter>().mesh;
 		mesh.name = "Road Piece";
 
-		vertices = new Vector3[len * 4];
+        vertices = new Vector3[len * 4];
 		triangles = new int[len * 6];
 
 		StartCoroutine("CreateRoadPiece", len);
@@ -112,8 +113,12 @@ public class RoadGenerator : MonoBehaviour
 
 		mesh.vertices = vertices;
 		mesh.triangles = triangles;
-	}
 
+        MeshCollider coll = gameObject.AddComponent<MeshCollider>();
+        coll.sharedMesh = mesh;
+    }
+
+    /*
 	private void OnDrawGizmos()
 	{
 		if (vertices == null) return;
@@ -124,4 +129,5 @@ public class RoadGenerator : MonoBehaviour
 			Gizmos.DrawSphere(vertices[i], 0.1f);
 		}
 	}
+    */
 }

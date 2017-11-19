@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour {
+public class CameraMovement : MonoBehaviour {
 
 	public Transform chicken;
 	public Vector3 offset;
