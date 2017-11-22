@@ -17,10 +17,6 @@ public class ChickenCollision : MonoBehaviour {
 	public bool smooth;
 	public float smoothAmount = 5f;
 
-	public void Start() {
-		gameOver.text = string.Empty;
-	}
-
 	public void ShakeCamera(float amount, float duration) {
 
 		shakeAmount += amount;
@@ -57,13 +53,16 @@ public class ChickenCollision : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		//Bonus points
-		if (col.gameObject.name == "Cube") {
+		if (col.gameObject.tag == "Bonus") {
 			Destroy (col.gameObject);
-		} else if (col.gameObject.name == "Sphere") {
-			gameOver.text = "Game over";
-			ShakeCamera (1.5f, 2.0f);
+		}
+        else if (col.gameObject.tag == "Obstacle") {
+			gameOver.gameObject.SetActive(true);
+			ShakeCamera (2.5f, 2.0f);
 
-			var animator = gameObject.GetComponent<Animator> ();
+            Destroy(col.gameObject);
+
+            var animator = gameObject.GetComponent<Animator> ();
 			animator.SetBool ("Stop", true);
 		}
 	}

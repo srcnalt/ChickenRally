@@ -50,9 +50,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4164691525487238}
   - component: {fileID: 95739862095817528}
+  - component: {fileID: 65837515025489760}
+  - component: {fileID: 54966822706797198}
   - component: {fileID: 114461984235267496}
-  - component: {fileID: 54316896453695050}
-  - component: {fileID: 65347907429512452}
+  - component: {fileID: 114977388426860110}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Untagged
@@ -856,7 +857,7 @@ Transform:
   m_Father: {fileID: 4239316884754126}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &54316896453695050
+--- !u!54 &54966822706797198
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -871,7 +872,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!65 &65347907429512452
+--- !u!65 &65837515025489760
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -881,8 +882,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.0231767, y: 5.8130665, z: 2.2469988}
-  m_Center: {x: -0.00000047683716, y: 2.8221998, z: 0.3357308}
+  m_Size: {x: 3.0448027, y: 5.9383965, z: 2.31176}
+  m_Center: {x: -0.019290686, y: 3.0093346, z: 0.27006817}
 --- !u!95 &95739862095817528
 Animator:
   serializedVersion: 3
@@ -913,6 +914,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 50
   rotationSpeed: 30
+  road: {fileID: 0}
+--- !u!114 &114977388426860110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072880756835848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd854717385645049aa63d364b2254e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOver: {fileID: 0}
+  shakeAmount: 5
+  shakeDuration: 3
+  smooth: 1
+  smoothAmount: 5
 --- !u!137 &137553749133585242
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

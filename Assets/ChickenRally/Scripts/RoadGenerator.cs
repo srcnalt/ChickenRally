@@ -26,6 +26,7 @@ public class RoadGenerator : MonoBehaviour
 	void Start ()
     {
         roadToSwap = roadA.transform;
+        roadPieceWidth *= 0.5f;
 
         vertices = new Vector3[numberOfRoadPiece * 4];
 		triangles = new int[numberOfRoadPiece * 6];
@@ -92,7 +93,7 @@ public class RoadGenerator : MonoBehaviour
 
         for (int i = 0; i < vertices.Length; i++)
         {
-            UVs[i] = new Vector2(vertices[i].x / roadPieceWidth, vertices[i].z / roadPieceLength);
+            UVs[i] = new Vector2((vertices[i].x) / (roadPieceWidth * 2), vertices[i].z / roadPieceLength);
         }
 
         road.mesh.uv = UVs;
