@@ -7,6 +7,9 @@ public class RoadGenerator : MonoBehaviour
     public MeshFilter roadA;
     public MeshFilter roadB;
 
+    public Transform obstacle;
+    public Transform roadSide;
+
     public int numberOfRoadPiece;
     public float roadPieceLength;
     public float roadPieceWidth;
@@ -15,12 +18,13 @@ public class RoadGenerator : MonoBehaviour
     int[] triangles;
 
     Vector3[] vertices;
-    Vector3[] lastVerts = new Vector3[2];
+    Vector3[] quad = new Vector3[4];
 
     float add = 0;
     public int currentPos = 0;
 
     Transform roadToSwap;
+    Transform[] obstacles;
 
 	// Use this for initialization
 	void Start ()
@@ -49,8 +53,8 @@ public class RoadGenerator : MonoBehaviour
 
             if(currentPos > 0 && i == 0)
             {
-                vertices[4 * i] = lastVerts[0];
-                vertices[4 * i + 1] = lastVerts[1];
+                vertices[4 * i] = quad[2];
+                vertices[4 * i + 1] = quad[3];
             }
             else if (i == 0)
 			{
@@ -66,16 +70,26 @@ public class RoadGenerator : MonoBehaviour
 			vertices[4 * i + 2] = new Vector3(vertices[4 * i].x + add, 0, roadPieceLength * (currentPos + 1));
 			vertices[4 * i + 3] = new Vector3(vertices[4 * i + 1].x + add, 0, roadPieceLength * (currentPos + 1));
 
-            lastVerts[0] = vertices[4 * i + 2];
-            lastVerts[1] = vertices[4 * i + 3];
+            quad[0] = vertices[4 * i];
+            quad[1] = vertices[4 * i + 1];
+            quad[2] = vertices[4 * i + 2];
+            quad[3] = vertices[4 * i + 3];
 
-			triangles[i * 6]        = i * 4;
+            triangles[i * 6]        = i * 4;
 			triangles[i * 6 + 1]    = i * 4 + 2;
 			triangles[i * 6 + 2]    = i * 4 + 1;
 
 			triangles[i * 6 + 3]    = i * 4 + 1;
 			triangles[i * 6 + 4]    = i * 4 + 2;
 			triangles[i * 6 + 5]    = i * 4 + 3;
+
+            if(Random.Range(1, 10) % 4 == 0)
+            {
+                Instantiate(obstacle, new Vector3(Random.Range(quad[0].x + 2, quad[1].x - 2), 1, roadPieceLength * (currentPos + 1) - roadPieceLength / 2), Quaternion.identity);
+            }
+
+            Instantiate(roadSide, new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2, 0, roadPieceLength * (currentPos + 1) - roadPieceLength / 2), Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[0].x - quad[2].x) / roadPieceLength), Vector3.up));
+            Instantiate(roadSide, new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, 0, roadPieceLength * (currentPos + 1) - roadPieceLength / 2), Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up));
 
             currentPos++;
         }
