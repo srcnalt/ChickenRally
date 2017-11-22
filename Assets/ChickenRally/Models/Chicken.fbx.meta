@@ -1,68 +1,82 @@
 fileFormatVersion: 2
-guid: 81dc4a9db335d6e41a88ec690e44dec3
-timeCreated: 1511027033
+guid: a6d480e07aa230e41b4a54e9d2672afa
+timeCreated: 1511364304
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
     100002: Bone
-    100004: Bone_001
-    100006: Bone_002
-    100008: Bone_003
-    100010: Bone_004
-    100012: Bone_005
-    100014: Bone_006
-    100016: Bone_007
-    100018: Bone_008
-    100020: Bone_009
-    100022: Bone_010
-    100024: Bone_011
-    100026: Bone_012
-    100028: Bone_013
-    100030: Bone_014
-    100032: Bone_015
-    100034: Bone_016
-    100036: Bone_017
-    100038: Bone_018
-    100040: //RootNode
-    100042: Cylinder
+    100004: Bone.001
+    100006: Bone.002
+    100008: Bone.003
+    100010: Bone.004
+    100012: Bone.005
+    100014: Bone.006
+    100016: Bone.007
+    100018: Bone.008
+    100020: Bone.008_end
+    100022: Bone.009
+    100024: Bone.009_end
+    100026: Bone.010
+    100028: Bone.011
+    100030: Bone.011_end
+    100032: Bone.012
+    100034: Bone.013
+    100036: Bone.014
+    100038: Bone.015
+    100040: Bone.015_end
+    100042: Bone.016
+    100044: Bone.016_end
+    100046: Bone.017
+    100048: Bone.017_end
+    100050: Bone.018
+    100052: Bone.018_end
+    100054: //RootNode
+    100056: Cylinder
     400000: Armature
     400002: Bone
-    400004: Bone_001
-    400006: Bone_002
-    400008: Bone_003
-    400010: Bone_004
-    400012: Bone_005
-    400014: Bone_006
-    400016: Bone_007
-    400018: Bone_008
-    400020: Bone_009
-    400022: Bone_010
-    400024: Bone_011
-    400026: Bone_012
-    400028: Bone_013
-    400030: Bone_014
-    400032: Bone_015
-    400034: Bone_016
-    400036: Bone_017
-    400038: Bone_018
-    400040: //RootNode
-    400042: Cylinder
+    400004: Bone.001
+    400006: Bone.002
+    400008: Bone.003
+    400010: Bone.004
+    400012: Bone.005
+    400014: Bone.006
+    400016: Bone.007
+    400018: Bone.008
+    400020: Bone.008_end
+    400022: Bone.009
+    400024: Bone.009_end
+    400026: Bone.010
+    400028: Bone.011
+    400030: Bone.011_end
+    400032: Bone.012
+    400034: Bone.013
+    400036: Bone.014
+    400038: Bone.015
+    400040: Bone.015_end
+    400042: Bone.016
+    400044: Bone.016_end
+    400046: Bone.017
+    400048: Bone.017_end
+    400050: Bone.018
+    400052: Bone.018_end
+    400054: //RootNode
+    400056: Cylinder
     4300000: Cylinder
-    7400000: Default Take
-    7400002: Idle
-    7400004: Jump
-    7400006: Run
-    7400008: Turn
+    7400000: Armature|Idle
+    7400002: Armature|Jump
+    7400004: Armature|Run
+    7400006: Armature|Turn
+    7400008: Cylinder|Run
     9500000: //RootNode
     13700000: Cylinder
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: unnamed
-    second: {fileID: 2100000, guid: 69bcdc89ec74bef4c8d38f34fa3e3a53, type: 2}
+      name: No Name
+    second: {fileID: 2100000, guid: eaa76c3a355792342b5d7bd3b916625b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -90,38 +104,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
-      takeName: Idle
-      firstFrame: -1
-      lastFrame: 119
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Jump
-      takeName: Jump
-      firstFrame: -1
-      lastFrame: 19
+      name: Armature|Idle
+      takeName: Armature|Idle
+      firstFrame: 0
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -146,10 +132,38 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Run
-      takeName: Run
-      firstFrame: -1
-      lastFrame: 11
+      name: Armature|Jump
+      takeName: Armature|Jump
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Run
+      takeName: Armature|Run
+      firstFrame: 0
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -174,10 +188,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Turn
-      takeName: Turn
-      firstFrame: -1
-      lastFrame: 9
+      name: Armature|Turn
+      takeName: Armature|Turn
+      firstFrame: 0
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

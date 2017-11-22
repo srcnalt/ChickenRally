@@ -3,7 +3,7 @@
 public class ChickenMovement : MonoBehaviour
 {    
 	private float mhNormal;
-
+    
 	public float movementSpeed;
 	public float rotationSpeed;
 
@@ -11,7 +11,7 @@ public class ChickenMovement : MonoBehaviour
 	{
 		mhNormal = Input.GetAxis("Mouse X");
 
-		transform.Translate(Vector3.forward * 1 * movementSpeed * Time.deltaTime);
+		transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
 
         #if UNITY_EDITOR
             transform.Rotate(Vector3.up,  mhNormal * rotationSpeed * Time.deltaTime);

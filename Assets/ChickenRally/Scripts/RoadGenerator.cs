@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class RoadGenerator : MonoBehaviour
 {
-	public float rad;
+    public RangeInt test;
+    public float rad;
+    public Material material;
 
 	int len = 100;
     int[] triangles;
+
 
     Vector3[] vertices;
     Mesh mesh;
@@ -16,7 +19,9 @@ public class RoadGenerator : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-		mesh = GetComponent<MeshFilter>().mesh;
+        test = new RangeInt();
+
+        mesh = GetComponent<MeshFilter>().mesh;
 		mesh.name = "Road Piece";
 
         vertices = new Vector3[len * 4];
@@ -67,6 +72,9 @@ public class RoadGenerator : MonoBehaviour
 
         MeshCollider coll = gameObject.AddComponent<MeshCollider>();
         coll.sharedMesh = mesh;
+
+        MeshRenderer rend = gameObject.GetComponent<MeshRenderer>();
+        rend.materials[0] = material;
     }
 
     /*
