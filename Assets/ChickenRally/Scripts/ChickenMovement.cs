@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
 public class ChickenMovement : MonoBehaviour
-{    
+{   
 	private float mhNormal;
     
 	public float movementSpeed;
 	public float rotationSpeed;
+
+    public RoadGenerator road;
 
 	void FixedUpdate ()
 	{
@@ -18,5 +20,12 @@ public class ChickenMovement : MonoBehaviour
         #else
             transform.Rotate(Vector3.up,  (-1 * (Input.acceleration.x)) * rotationSpeed * Time.deltaTime);
         #endif
+        
+        if(transform.position.z >= (road.currentPos - road.numberOfRoadPiece + 1) * road.roadPieceLength)
+        {
+            Debug.Log("Passed");
+
+            road.GenerateRoadExtention();
+        }
     }
 }
