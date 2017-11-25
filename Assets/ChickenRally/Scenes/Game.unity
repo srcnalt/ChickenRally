@@ -197,7 +197,7 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &92682248
 GameObject:
@@ -746,7 +746,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4164691525487238, guid: b544abe860a411c41b56077f8673ed0c, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114977388426860110, guid: b544abe860a411c41b56077f8673ed0c,
         type: 2}
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadA: {fileID: 1338797883}
   roadB: {fileID: 1488832599}
-  obstacle: {fileID: 4326731744237700, guid: 2ce6161a0c711c04fa07d0e5b603c81e, type: 2}
+  obstacle: {fileID: 4287000201824010, guid: 18f59661b3241b64786ffeab9b747012, type: 2}
   roadSide: {fileID: 4124163430780886, guid: cdddac6e17998cd4ca8cfa60efbe793d, type: 2}
   numberOfRoadPiece: 20
   roadPieceLength: 20

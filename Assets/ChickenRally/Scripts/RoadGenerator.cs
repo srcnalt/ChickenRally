@@ -86,12 +86,15 @@ public class RoadGenerator : MonoBehaviour
 			triangles[i * 6 + 4]    = i * 4 + 2;
 			triangles[i * 6 + 5]    = i * 4 + 3;
 
-            if(Random.Range(1, 10) % 4 == 0)
-            {
-                Instantiate(obstacle, new Vector3(Random.Range(quad[0].x + 2, quad[1].x - 2), verticalDisplacement, roadPieceLength * (currentPos + 1) - roadPieceLength / 2), Quaternion.identity);
-            }
-
             //add these to object pooler
+
+            if (Random.Range(1, 10) % 4 == 0)
+            {
+                Instantiate(
+                        obstacle,
+                        new Vector3(Random.Range(quad[0].x + 5, quad[1].x - 5), verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+                        obstacle.rotation * Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.forward));
+            }
 
             Instantiate(
                         roadSide, 
