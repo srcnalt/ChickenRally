@@ -11,7 +11,7 @@ public class RoadGenerator : MonoBehaviour
     public Transform roadSide;
 
     public int numberOfRoadPiece;
-    public float roadPieceLength;
+	public float roadPieceLength;
     public float roadPieceWidth;
     public Material material;
     
@@ -28,6 +28,9 @@ public class RoadGenerator : MonoBehaviour
     Transform[] obstacles;
     Transform obstacle;
 
+	List<Transform> cachedObstacles;
+	int numberOfObstacles = -1;
+
     // Use this for initialization
     void Start ()
     {
@@ -37,8 +40,12 @@ public class RoadGenerator : MonoBehaviour
         vertices = new Vector3[numberOfRoadPiece * 4];
 		triangles = new int[numberOfRoadPiece * 6];
         
-        CreateRoadPiece(numberOfRoadPiece, roadA);
+		cachedObstacles = new List<Transform> ();
+
+		CreateRoadPiece(numberOfRoadPiece, roadA);
         CreateRoadPiece(numberOfRoadPiece, roadB);
+
+		numberOfObstacles = cachedObstacles.Count;
     }
 
 	void GetRandom ()
@@ -87,29 +94,40 @@ public class RoadGenerator : MonoBehaviour
 			triangles[i * 6 + 4]    = i * 4 + 2;
 			triangles[i * 6 + 5]    = i * 4 + 3;
 
-            //add these to object pooler
+			if (Random.Range (1, 10) % 3 == 0) {
+				if (cachedObstacles.Count == numberOfObstacles) {
+					for (int j = 0; j < cachedObstacles.Count; j ++) {
+						var ob = cachedObstacles [j];
+						if (!ob.gameObject.activeInHierarchy) {
+							ob.position = new Vector3 (Random.Range (quad [0].x + 5, quad [1].x - 5), verticalDisplacement + (quad [1].y - quad [3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+							ob.rotation = ob.rotation * Quaternion.AngleAxis (-Mathf.Rad2Deg * Mathf.Atan ((quad [1].y - quad [3].y) / roadPieceLength), Vector3.forward);
+							ob.gameObject.SetActive (true);
+							break;
+						}
+					}
+				} else {
+					obstacle = obstacleList [Random.Range (0, obstacleList.Length)];
 
-            obstacle = obstacleList[Random.Range(0, obstacleList.Length)];
+						var obstacleTransform = Instantiate (obstacle,
+							                       new Vector3 (Random.Range (quad [0].x + 5, quad [1].x - 5), verticalDisplacement + (quad [1].y - quad [3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+							                       obstacle.rotation * Quaternion.AngleAxis (-Mathf.Rad2Deg * Mathf.Atan ((quad [1].y - quad [3].y) / roadPieceLength), Vector3.forward));
+						
+						cachedObstacles.Add (obstacleTransform);
+				}
+			}
 
-            if (Random.Range(1, 10) % 3 == 0)
-            {
-                Instantiate(
-                        obstacle,
-                        new Vector3(Random.Range(quad[0].x + 5, quad[1].x - 5), verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-                        obstacle.rotation * Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.forward));
-            }
+			Instantiate(
+				roadSide, 
+				new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+				Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[0].x - quad[2].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
 
-            Instantiate(
-                        roadSide, 
-                        new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-                        Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[0].x - quad[2].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
-            
-            Instantiate(
-                        roadSide,
-                        new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-                        Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+			Instantiate(
+				roadSide,
+				new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+				Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
 
-            currentPos++;
+			currentPos++;
+          
         }
 
         SetRoadAttributes(road);

@@ -28,10 +28,4 @@ public class ChickenMovement : MonoBehaviour
             road.GenerateRoadExtention();
         }
     }
-
-	void Update() {
-		if (Input.GetKeyDown ("space")) {
-			GetComponent<Rigidbody> ().AddForce (Vector3.up * 500);
-		}
-	}
 }

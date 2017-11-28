@@ -24,4 +24,8 @@ public class Obstacle : MonoBehaviour, ICollidable
 
         StartCoroutine(Camera.main.GetComponent<CameraMovement>().Shake());
     }
+
+	void OnBecameInvisible() {
+		gameObject.SetActive(false);
+	}
 }
