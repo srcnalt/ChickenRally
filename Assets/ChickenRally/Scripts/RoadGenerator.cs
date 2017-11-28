@@ -7,7 +7,7 @@ public class RoadGenerator : MonoBehaviour
     public MeshFilter roadA;
     public MeshFilter roadB;
 
-    public Transform obstacle;
+    public Transform[] obstacleList;
     public Transform roadSide;
 
     public int numberOfRoadPiece;
@@ -26,9 +26,10 @@ public class RoadGenerator : MonoBehaviour
 
     Transform roadToSwap;
     Transform[] obstacles;
+    Transform obstacle;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         roadToSwap = roadA.transform;
         roadPieceWidth *= 0.5f;
@@ -88,7 +89,9 @@ public class RoadGenerator : MonoBehaviour
 
             //add these to object pooler
 
-            if (Random.Range(1, 10) % 4 == 0)
+            obstacle = obstacleList[Random.Range(0, obstacleList.Length)];
+
+            if (Random.Range(1, 10) % 3 == 0)
             {
                 Instantiate(
                         obstacle,

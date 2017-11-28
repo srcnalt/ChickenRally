@@ -2,7 +2,7 @@
 
 public interface ICollidable
 {
-    void OnCollisionEnter(Collision col);
+    void OnTriggerEnter(Collider col);
 
     void React();
 }

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65640723277156648}
   - component: {fileID: 114581458417568720}
   m_Layer: 0
-  m_Name: rocks
+  m_Name: road_side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993554314426102}
-  m_Mesh: {fileID: 4300000, guid: e93f79fefa7c6444e8c2bb8c15f69d98, type: 3}
+  m_Mesh: {fileID: 4300000, guid: f49b81b7fd8da0040aa45105fd441339, type: 3}
 --- !u!65 &65640723277156648
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -91,7 +91,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993554314426102}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.8450828, y: 11.988699, z: 20.76118}

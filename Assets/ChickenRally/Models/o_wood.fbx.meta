@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 61f7d225c665979438878b5a61a01aeb
-timeCreated: 1511573581
+guid: e93f79fefa7c6444e8c2bb8c15f69d98
+timeCreated: 1511384806
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,15 +9,19 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube
-    7400000: Default Take
-    9500000: //RootNode
+    4300000: Plane
+    4300002: Cylinder
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: None__rocks_png
-    second: {fileID: 2100000, guid: 2f3f94117664fa94fb0218545bf65a92, type: 2}
+      name: No Name
+    second: {fileID: 2100000, guid: eaa76c3a355792342b5d7bd3b916625b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trunk
+    second: {fileID: 2100000, guid: afa6821d78f10034590452ed5b431e93, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -89,7 +93,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

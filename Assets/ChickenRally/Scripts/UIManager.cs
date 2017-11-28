@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -8,6 +6,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public Text gameOver;
+    public Text score;
 
     private void Awake()
     {
@@ -18,7 +17,12 @@ public class UIManager : MonoBehaviour
 
         instance = this;
     }
-    
+
+    public void UpdateScore(int s)
+    {
+        score.text = "Score: " + s;
+    }
+
     public void DisplayGameOverText()
     {
         gameOver.gameObject.SetActive(true);

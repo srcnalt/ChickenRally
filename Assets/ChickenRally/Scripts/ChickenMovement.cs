@@ -3,6 +3,7 @@
 public class ChickenMovement : MonoBehaviour
 {
     private float mhNormal;
+    private GameObject col;
 
     public float movementSpeed;
     public float rotationSpeed;

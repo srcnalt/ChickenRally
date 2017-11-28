@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 840fa258d2fe94049880b4f64bbd0536
+timeCreated: 1511828534
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: BD Cartoon Shout
+  fontNames:
+  - BD Cartoon Shout
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

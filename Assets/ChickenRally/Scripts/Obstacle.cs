@@ -5,7 +5,7 @@ public class Obstacle : MonoBehaviour, ICollidable
 {
     private GameObject touchedObject;
 
-    public void OnCollisionEnter(Collision col)
+    public void OnTriggerEnter(Collider col)
     {
         touchedObject = col.gameObject;
 

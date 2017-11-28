@@ -197,7 +197,7 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &92682248
 GameObject:
@@ -396,7 +396,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866467957
 GameObject:
@@ -485,8 +485,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 92682249}
+  - {fileID: 2093880169}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -505,6 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOver: {fileID: 92682250}
+  score: {fileID: 2093880170}
 --- !u!1 &1104952473
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +569,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1236186870 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1072880756835848, guid: b544abe860a411c41b56077f8673ed0c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1636204329}
+--- !u!114 &1236186871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1236186870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be26bf199a62e8f4b8a27a286f4d0074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338797880
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +764,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4164691525487238, guid: b544abe860a411c41b56077f8673ed0c, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114977388426860110, guid: b544abe860a411c41b56077f8673ed0c,
         type: 2}
@@ -781,6 +799,11 @@ Prefab:
     - target: {fileID: 114977388426860110, guid: b544abe860a411c41b56077f8673ed0c,
         type: 2}
       propertyPath: smooth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65837515025489760, guid: b544abe860a411c41b56077f8673ed0c,
+        type: 2}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -881,7 +904,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadA: {fileID: 1338797883}
   roadB: {fileID: 1488832599}
-  obstacle: {fileID: 4287000201824010, guid: 18f59661b3241b64786ffeab9b747012, type: 2}
+  obstacleList:
+  - {fileID: 4934001937487110, guid: 18f59661b3241b64786ffeab9b747012, type: 2}
+  - {fileID: 4961476587897092, guid: 434e22df810dc004d92ff0cace974a68, type: 2}
+  - {fileID: 4970752600167698, guid: 451bc707d405f0c4cbf7657e3f93bec1, type: 2}
   roadSide: {fileID: 4124163430780886, guid: cdddac6e17998cd4ca8cfa60efbe793d, type: 2}
   numberOfRoadPiece: 20
   roadPieceLength: 20
@@ -901,10 +927,102 @@ Transform:
   - {fileID: 1338797881}
   - {fileID: 1488832597}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2013372938 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4164691525487238, guid: b544abe860a411c41b56077f8673ed0c,
     type: 2}
   m_PrefabInternal: {fileID: 1636204329}
+--- !u!1 &2093880168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2093880169}
+  - component: {fileID: 2093880171}
+  - component: {fileID: 2093880170}
+  - component: {fileID: 2093880172}
+  m_Layer: 0
+  m_Name: Score
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2093880169
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2093880168}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -489, y: 344, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 866467961}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 23, y: -40}
+  m_SizeDelta: {x: 400, y: 50}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &2093880170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2093880168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.80689657, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 840fa258d2fe94049880b4f64bbd0536, type: 3}
+    m_FontSize: 37
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 50
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Score: 0'
+--- !u!222 &2093880171
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2093880168}
+--- !u!95 &2093880172
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2093880168}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 58101717514670e4abfa329e48ccc441, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
