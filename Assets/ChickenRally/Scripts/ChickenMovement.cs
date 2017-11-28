@@ -11,6 +11,8 @@ public class ChickenMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (UIManager.instance.menuOn) return;
+
         mhNormal = Input.GetAxis("Mouse X");
 
         transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);

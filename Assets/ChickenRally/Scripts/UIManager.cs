@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
 
     public Text gameOver;
     public Text score;
+    public GameObject menuPanel;
+
+    public bool menuOn = true;
 
     private void Awake()
     {
@@ -26,5 +29,16 @@ public class UIManager : MonoBehaviour
     public void DisplayGameOverText()
     {
         gameOver.gameObject.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        menuOn = false;
+        menuPanel.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

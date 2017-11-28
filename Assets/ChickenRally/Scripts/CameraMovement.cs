@@ -14,8 +14,10 @@ public class CameraMovement : MonoBehaviour {
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        #if UNITY_IOS || UNITY_ANDROID 
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        #endif
     }
 
     void FixedUpdate ()
