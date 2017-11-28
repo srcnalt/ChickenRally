@@ -9,7 +9,7 @@ public class ChickenMovement : MonoBehaviour
     public float rotationSpeed;
     public RoadGenerator road;
 
-    void FixedUpdate()
+	void FixedUpdate()
     {
         if (UIManager.instance.menuOn) return;
 
@@ -28,4 +28,10 @@ public class ChickenMovement : MonoBehaviour
             road.GenerateRoadExtention();
         }
     }
+
+	void Update() {
+		if (Input.GetKeyDown ("space")) {
+			GetComponent<Rigidbody> ().AddForce (Vector3.up * 500);
+		}
+	}
 }
