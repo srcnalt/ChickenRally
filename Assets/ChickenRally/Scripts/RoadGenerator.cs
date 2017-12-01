@@ -6,25 +6,40 @@ public class RoadGenerator : MonoBehaviour
 {
     public MeshFilter roadA;
     public MeshFilter roadB;
+    [Space(10)]
+
+    public MeshFilter groundA;
+    public MeshFilter groundB;
+    [Space(10)]
 
     public Transform[] obstacleList;
     public Transform roadSide;
+    public Transform[] trees;
 
     public int numberOfRoadPiece;
 	public float roadPieceLength;
     public float roadPieceWidth;
-    public Material material;
-    
-    int[] triangles;
+    public float groundPieceWidth;
+    [Space(10)]
 
+    public Material material;
+    public Material materialGround;
+
+    int[] triangles;
     Vector3[] vertices;
     Vector3[] quad = new Vector3[4];
+
+    int[] trianglesGround;
+    Vector3[] verticesGround;
+    Vector3[] quadGround = new Vector3[4];
 
     float add = 0;
     float verticalDisplacement = 0;
     public int currentPos = 0;
 
     Transform roadToSwap;
+    Transform groundToSwap;
+
     Transform[] obstacles;
     Transform obstacle;
 
@@ -37,13 +52,19 @@ public class RoadGenerator : MonoBehaviour
         roadToSwap = roadA.transform;
         roadPieceWidth *= 0.5f;
 
+        groundToSwap = groundA.transform;
+        groundPieceWidth *= 0.5f;
+
         vertices = new Vector3[numberOfRoadPiece * 4];
 		triangles = new int[numberOfRoadPiece * 6];
-        
-		cachedObstacles = new List<Transform> ();
 
-		CreateRoadPiece(numberOfRoadPiece, roadA);
-        CreateRoadPiece(numberOfRoadPiece, roadB);
+        verticesGround = new Vector3[numberOfRoadPiece * 4];
+        trianglesGround = new int[numberOfRoadPiece * 6];
+
+        cachedObstacles = new List<Transform> ();
+
+		CreateRoadPiece(numberOfRoadPiece, roadA, groundA);
+        CreateRoadPiece(numberOfRoadPiece, roadB, groundB);
 
 		numberOfObstacles = cachedObstacles.Count;
     }
@@ -53,10 +74,9 @@ public class RoadGenerator : MonoBehaviour
         float f = currentPos * 0.1f;
         add = Mathf.PerlinNoise(f, 0) * 50 - 25;
         verticalDisplacement = add / 2;
-
     }
 
-	private void CreateRoadPiece(int n, MeshFilter road)
+	private void CreateRoadPiece(int n, MeshFilter road, MeshFilter ground)
 	{
 		for (int i = 0; i < n; i++)
 		{
@@ -66,25 +86,42 @@ public class RoadGenerator : MonoBehaviour
             {
                 vertices[4 * i] = quad[2];
                 vertices[4 * i + 1] = quad[3];
+
+                verticesGround[4 * i] = quadGround[2];
+                verticesGround[4 * i + 1] = quadGround[3];
             }
             else if (i == 0)
 			{
 				vertices[0] = new Vector3(-roadPieceWidth, verticalDisplacement, 0);
 				vertices[1] = new Vector3(roadPieceWidth, verticalDisplacement, 0);
-			}
+
+                verticesGround[0] = new Vector3(-groundPieceWidth, verticalDisplacement, 0);
+                verticesGround[1] = new Vector3(groundPieceWidth, verticalDisplacement, 0);
+            }
 			else
 			{
 				vertices[4 * i] = vertices[4 * i - 2];
                 vertices[4 * i + 1] = vertices[4 * i - 1];
+
+                verticesGround[4 * i] = verticesGround[4 * i - 2];
+                verticesGround[4 * i + 1] = verticesGround[4 * i - 1];
             }
 
 			vertices[4 * i + 2] = new Vector3(vertices[4 * i].x + add, verticalDisplacement, roadPieceLength * (currentPos + 1));
 			vertices[4 * i + 3] = new Vector3(vertices[4 * i + 1].x + add, verticalDisplacement, roadPieceLength * (currentPos + 1));
 
+            verticesGround[4 * i + 2] = new Vector3(verticesGround[4 * i].x + add, verticalDisplacement - 1, roadPieceLength * (currentPos + 1));
+            verticesGround[4 * i + 3] = new Vector3(verticesGround[4 * i + 1].x + add, verticalDisplacement - 1, roadPieceLength * (currentPos + 1));
+
             quad[0] = vertices[4 * i];
             quad[1] = vertices[4 * i + 1];
             quad[2] = vertices[4 * i + 2];
             quad[3] = vertices[4 * i + 3];
+
+            quadGround[0] = verticesGround[4 * i];
+            quadGround[1] = verticesGround[4 * i + 1];
+            quadGround[2] = verticesGround[4 * i + 2];
+            quadGround[3] = verticesGround[4 * i + 3];
 
             triangles[i * 6]        = i * 4;
 			triangles[i * 6 + 1]    = i * 4 + 2;
@@ -94,7 +131,16 @@ public class RoadGenerator : MonoBehaviour
 			triangles[i * 6 + 4]    = i * 4 + 2;
 			triangles[i * 6 + 5]    = i * 4 + 3;
 
-			if (Random.Range (1, 10) % 3 == 0) {
+            //
+            trianglesGround[i * 6] = i * 4;
+            trianglesGround[i * 6 + 1] = i * 4 + 2;
+            trianglesGround[i * 6 + 2] = i * 4 + 1;
+
+            trianglesGround[i * 6 + 3] = i * 4 + 1;
+            trianglesGround[i * 6 + 4] = i * 4 + 2;
+            trianglesGround[i * 6 + 5] = i * 4 + 3;
+
+            if (Random.Range (1, 10) % 3 == 0) {
 				if (cachedObstacles.Count == numberOfObstacles) {
 					for (int j = 0; j < cachedObstacles.Count; j ++) {
 						var ob = cachedObstacles [j];
@@ -126,48 +172,75 @@ public class RoadGenerator : MonoBehaviour
 				new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
 				Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
 
-			currentPos++;
+            Instantiate(
+                trees[Random.Range(0, trees.Length)],
+                new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2 - 20, verticalDisplacement - 3 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+                Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+
+            Instantiate(
+                trees[Random.Range(0, trees.Length)],
+                new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2 + 40, verticalDisplacement - 2 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
+                Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+
+
+            currentPos++;
           
         }
 
-        SetRoadAttributes(road);
+        SetRoadAttributes(road, ground);
     }
 
-    private void SetRoadAttributes(MeshFilter road)
+    private void SetRoadAttributes(MeshFilter road, MeshFilter ground)
     {
         road.mesh.vertices = vertices;
         road.mesh.triangles = triangles;
         road.mesh.RecalculateNormals();
 
+        ground.mesh.vertices = verticesGround;
+        ground.mesh.triangles = trianglesGround;
+        ground.mesh.RecalculateNormals();
+
         Vector2[] UVs = new Vector2[vertices.Length];
+        Vector2[] UVsGround = new Vector2[verticesGround.Length];
 
         for (int i = 0; i < vertices.Length; i++)
         {
             UVs[i] = new Vector2((vertices[i].x) / (roadPieceWidth * 2), vertices[i].z / roadPieceLength);
+            UVsGround[i] = new Vector2((verticesGround[i].x) / (groundPieceWidth / 4), verticesGround[i].z / roadPieceLength);
         }
 
         road.mesh.uv = UVs;
+        ground.mesh.uv = UVsGround;
 
         Destroy(road.gameObject.GetComponent<MeshCollider>());
+        Destroy(ground.gameObject.GetComponent<MeshCollider>());
 
         MeshCollider coll = road.gameObject.AddComponent<MeshCollider>();
         coll.sharedMesh = road.mesh;
 
+        coll = ground.gameObject.AddComponent<MeshCollider>();
+        coll.sharedMesh = ground.mesh;
+
         Renderer rend = road.gameObject.GetComponent<Renderer>();
         rend.material = material;
+
+        rend = ground.gameObject.GetComponent<Renderer>();
+        rend.material = materialGround;
     }
 
     public void GenerateRoadExtention()
     {
-        CreateRoadPiece(numberOfRoadPiece, roadToSwap.GetComponent<MeshFilter>());
+        CreateRoadPiece(numberOfRoadPiece, roadToSwap.GetComponent<MeshFilter>(), groundToSwap.GetComponent<MeshFilter>());
 
         if(roadToSwap == roadA.transform)
         {
             roadToSwap = roadB.transform;
+            groundToSwap = groundB.transform;
         }
         else
         {
             roadToSwap = roadA.transform;
+            groundToSwap = groundA.transform;
         }
     }
 
