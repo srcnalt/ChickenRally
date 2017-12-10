@@ -104,6 +104,7 @@ public class RoadGenerator : MonoBehaviour
             if (currentPos == 0)
             {
                 GameObject.Find("StartGround").transform.position += new Vector3(0, verticalDisplacement + 1, 0);
+                GameObject.Find("Chicken").transform.position += new Vector3(0, verticalDisplacement + 1, 0);
             }
 
             if(currentPos > 0 && i == 0)
@@ -164,7 +165,7 @@ public class RoadGenerator : MonoBehaviour
             trianglesGround[i * 6 + 4] = i * 4 + 2;
             trianglesGround[i * 6 + 5] = i * 4 + 3;
 
-            if (Random.Range(1, 10) % 3 == 0 && i > 3)
+            if (Random.Range(1, 10) % 3 == 0 && i % 2 == 0 && i > 3)
             {
                 Transform collectable = null;
 

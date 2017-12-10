@@ -19,6 +19,8 @@ public class ChickenMovement : MonoBehaviour
 
         #if UNITY_EDITOR || UNITY_WEBGL || UNITY_STANDALONE
             transform.Rotate(Vector3.up, mhNormal * rotationSpeed * Time.deltaTime);
+        #elif UNITY_ANDROID
+            transform.Rotate(Vector3.up, ((Input.acceleration.x)) * rotationSpeed * 4 * Time.deltaTime);
         #else
             transform.Rotate(Vector3.up,  (-1 * (Input.acceleration.x)) * rotationSpeed * Time.deltaTime);
         #endif

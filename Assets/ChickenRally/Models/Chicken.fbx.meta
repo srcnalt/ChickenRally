@@ -34,6 +34,13 @@ ModelImporter:
     100052: Bone.018_end
     100054: //RootNode
     100056: Cylinder
+    100058: Bone.008_end_end
+    100060: Bone.009_end_end
+    100062: Bone.011_end_end
+    100064: Bone.015_end_end
+    100066: Bone.016_end_end
+    100068: Bone.017_end_end
+    100070: Bone.018_end_end
     400000: Armature
     400002: Bone
     400004: Bone.001
@@ -63,12 +70,20 @@ ModelImporter:
     400052: Bone.018_end
     400054: //RootNode
     400056: Cylinder
+    400058: Bone.008_end_end
+    400060: Bone.009_end_end
+    400062: Bone.011_end_end
+    400064: Bone.015_end_end
+    400066: Bone.016_end_end
+    400068: Bone.017_end_end
+    400070: Bone.018_end_end
     4300000: Cylinder
     7400000: Armature|Idle
     7400002: Armature|Jump
-    7400004: Armature|Run
+    7400004: Run
     7400006: Armature|Turn
     7400008: Cylinder|Run
+    7400010: Die
     9500000: //RootNode
     13700000: Cylinder
   externalObjects:
@@ -76,7 +91,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: No Name
-    second: {fileID: 2100000, guid: eaa76c3a355792342b5d7bd3b916625b, type: 2}
+    second: {fileID: 2100000, guid: f3248fc50e7890641966a5e38a5ea515, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -104,10 +119,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Idle
-      takeName: Armature|Idle
+      name: Die
+      takeName: Armature|Die
       firstFrame: 0
-      lastFrame: 120
+      lastFrame: 69
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -132,36 +147,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Jump
-      takeName: Armature|Jump
-      firstFrame: 0
-      lastFrame: 20
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Run
-      takeName: Armature|Run
+      name: Run
+      takeName: Armature|Armature|Armature|Run|Armature|Run
       firstFrame: 0
       lastFrame: 12
       wrapMode: 0
@@ -171,34 +158,6 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Turn
-      takeName: Armature|Turn
-      firstFrame: 0
-      lastFrame: 10
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
