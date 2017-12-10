@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     {
         menuOn = false;
         menuPanel.SetActive(false);
+        Cursor.visible = false;
     }
 
     public void QuitGame()

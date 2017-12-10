@@ -14,9 +14,12 @@ public class CameraMovement : MonoBehaviour {
 
     void Start()
     {
-        #if UNITY_IOS || UNITY_ANDROID 
+        #if UNITY_IOS || UNITY_ANDROID
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        #else
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         #endif
     }
 
@@ -39,9 +42,7 @@ public class CameraMovement : MonoBehaviour {
 
             yield return null;
         }
-
-        Camera.main.transform.localRotation = Quaternion.identity;
-
+        
         yield return new WaitForSeconds(2);
 
         SceneManager.LoadScene("Game");

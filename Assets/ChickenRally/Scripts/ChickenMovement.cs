@@ -26,6 +26,7 @@ public class ChickenMovement : MonoBehaviour
         if (transform.position.z >= (road.currentPos - road.numberOfRoadPiece + 1) * road.roadPieceLength)
         {
             road.GenerateRoadExtention();
+            road.DisableUnseenCollectables(transform.position.z);
         }
     }
 }

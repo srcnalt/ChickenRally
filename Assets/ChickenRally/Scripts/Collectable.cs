@@ -18,8 +18,4 @@ public class Collectable : MonoBehaviour, ICollidable
 
         gameObject.SetActive(false);
     }
-
-	void OnBecameInvisible() {
-		gameObject.SetActive(false);
-	}
 }

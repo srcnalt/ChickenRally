@@ -23,9 +23,7 @@ public class Obstacle : MonoBehaviour, ICollidable
         UIManager.instance.gameOver.GetComponent<Animator>().Play("GameOver");
 
         StartCoroutine(Camera.main.GetComponent<CameraMovement>().Shake());
-    }
 
-	void OnBecameInvisible() {
-		gameObject.SetActive(false);
-	}
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 }

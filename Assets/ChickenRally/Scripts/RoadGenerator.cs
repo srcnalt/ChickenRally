@@ -16,6 +16,11 @@ public class RoadGenerator : MonoBehaviour
     public Transform roadSide;
     public Transform[] trees;
 
+    public Transform obstacles;
+
+    Transform tree;
+    Transform side;
+
     public int numberOfRoadPiece;
 	public float roadPieceLength;
     public float roadPieceWidth;
@@ -39,16 +44,25 @@ public class RoadGenerator : MonoBehaviour
 
     Transform roadToSwap;
     Transform groundToSwap;
+    List<Transform> listToSwap;
+    List<Transform> treeToSwap;
 
-    Transform[] obstacles;
-    Transform obstacle;
+    List<Transform> roadSideObjectsA = new List<Transform>();
+    List<Transform> roadSideObjectsB = new List<Transform>();
 
-	List<Transform> cachedObstacles;
-	int numberOfObstacles = -1;
+    List<Transform> treesA = new List<Transform>();
+    List<Transform> treesB = new List<Transform>();
+
+    [HideInInspector]
+    public List<Transform> collectableList = new List<Transform>();
+
+    float randomSeed;
 
     // Use this for initialization
     void Start ()
     {
+        randomSeed = Random.Range(0f, 1000f);
+
         roadToSwap = roadA.transform;
         roadPieceWidth *= 0.5f;
 
@@ -60,27 +74,37 @@ public class RoadGenerator : MonoBehaviour
 
         verticesGround = new Vector3[numberOfRoadPiece * 4];
         trianglesGround = new int[numberOfRoadPiece * 6];
+        
+        listToSwap = roadSideObjectsA;
+        treeToSwap = treesA;
 
-        cachedObstacles = new List<Transform> ();
+        CreateRoadSideObjects(roadSideObjectsA, false);
+        CreateRoadSideObjects(roadSideObjectsB, false);
 
-		CreateRoadPiece(numberOfRoadPiece, roadA, groundA);
-        CreateRoadPiece(numberOfRoadPiece, roadB, groundB);
+        CreateRoadSideObjects(treesA, true);
+        CreateRoadSideObjects(treesB, true);
 
-		numberOfObstacles = cachedObstacles.Count;
+        CreateRoadPiece(numberOfRoadPiece, roadA, groundA, roadSideObjectsA, treesA);
+        CreateRoadPiece(numberOfRoadPiece, roadB, groundB, roadSideObjectsB, treesB);
     }
 
 	void GetRandom ()
     { 
         float f = currentPos * 0.1f;
-        add = Mathf.PerlinNoise(f, 0) * 50 - 25;
+        add = Mathf.PerlinNoise(f + randomSeed, 0) * 50 - 25;
         verticalDisplacement = add / 2;
     }
 
-	private void CreateRoadPiece(int n, MeshFilter road, MeshFilter ground)
+	private void CreateRoadPiece(int n, MeshFilter road, MeshFilter ground, List<Transform> objList, List<Transform> treeList)
 	{
 		for (int i = 0; i < n; i++)
 		{
             GetRandom();
+
+            if (currentPos == 0)
+            {
+                GameObject.Find("StartGround").transform.position += new Vector3(0, verticalDisplacement + 1, 0);
+            }
 
             if(currentPos > 0 && i == 0)
             {
@@ -110,8 +134,8 @@ public class RoadGenerator : MonoBehaviour
 			vertices[4 * i + 2] = new Vector3(vertices[4 * i].x + add, verticalDisplacement, roadPieceLength * (currentPos + 1));
 			vertices[4 * i + 3] = new Vector3(vertices[4 * i + 1].x + add, verticalDisplacement, roadPieceLength * (currentPos + 1));
 
-            verticesGround[4 * i + 2] = new Vector3(verticesGround[4 * i].x + add, verticalDisplacement - 1, roadPieceLength * (currentPos + 1));
-            verticesGround[4 * i + 3] = new Vector3(verticesGround[4 * i + 1].x + add, verticalDisplacement - 1, roadPieceLength * (currentPos + 1));
+            verticesGround[4 * i + 2] = new Vector3(verticesGround[4 * i].x + add, verticalDisplacement - 0.1f, roadPieceLength * (currentPos + 1));
+            verticesGround[4 * i + 3] = new Vector3(verticesGround[4 * i + 1].x + add, verticalDisplacement - 0.1f, roadPieceLength * (currentPos + 1));
 
             quad[0] = vertices[4 * i];
             quad[1] = vertices[4 * i + 1];
@@ -131,7 +155,7 @@ public class RoadGenerator : MonoBehaviour
 			triangles[i * 6 + 4]    = i * 4 + 2;
 			triangles[i * 6 + 5]    = i * 4 + 3;
 
-            //
+            //ground
             trianglesGround[i * 6] = i * 4;
             trianglesGround[i * 6 + 1] = i * 4 + 2;
             trianglesGround[i * 6 + 2] = i * 4 + 1;
@@ -140,54 +164,87 @@ public class RoadGenerator : MonoBehaviour
             trianglesGround[i * 6 + 4] = i * 4 + 2;
             trianglesGround[i * 6 + 5] = i * 4 + 3;
 
-            if (Random.Range (1, 10) % 3 == 0) {
-				if (cachedObstacles.Count == numberOfObstacles) {
-					for (int j = 0; j < cachedObstacles.Count; j ++) {
-						var ob = cachedObstacles [j];
-						if (!ob.gameObject.activeInHierarchy) {
-							ob.position = new Vector3 (Random.Range (quad [0].x + 5, quad [1].x - 5), verticalDisplacement + (quad [1].y - quad [3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
-							ob.rotation = ob.rotation * Quaternion.AngleAxis (-Mathf.Rad2Deg * Mathf.Atan ((quad [1].y - quad [3].y) / roadPieceLength), Vector3.forward);
-							ob.gameObject.SetActive (true);
-							break;
-						}
-					}
-				} else {
-					obstacle = obstacleList [Random.Range (0, obstacleList.Length)];
+            if (Random.Range(1, 10) % 3 == 0 && i > 3)
+            {
+                Transform collectable = null;
 
-						var obstacleTransform = Instantiate (obstacle,
-							                       new Vector3 (Random.Range (quad [0].x + 5, quad [1].x - 5), verticalDisplacement + (quad [1].y - quad [3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-							                       obstacle.rotation * Quaternion.AngleAxis (-Mathf.Rad2Deg * Mathf.Atan ((quad [1].y - quad [3].y) / roadPieceLength), Vector3.forward));
-						
-						cachedObstacles.Add (obstacleTransform);
-				}
-			}
+                foreach (Transform item in collectableList)
+                {
+                    if (!item.gameObject.activeSelf)
+                    {
+                        item.gameObject.SetActive(true);
+                        collectable = item;
+                        break;
+                    }
+                }
 
-			Instantiate(
-				roadSide, 
-				new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-				Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[0].x - quad[2].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+                if (collectable == null)
+                {
+                    collectable = Instantiate(obstacleList[Random.Range(0, obstacleList.Length)], obstacles);
+                    collectableList.Add(collectable);
+                }
 
-			Instantiate(
-				roadSide,
-				new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-				Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+                collectable.position = new Vector3(Random.Range(quad[0].x + 5, quad[1].x - 5), verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+                collectable.rotation = collectable.rotation * Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.forward);
+            }
 
-            Instantiate(
-                trees[Random.Range(0, trees.Length)],
-                new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2 - 20, verticalDisplacement - 3 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-                Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+            //left item
+            side = GetOneRoadSideObject(2 * i, objList);
+            side.transform.position = new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+            side.transform.rotation = Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[0].x - quad[2].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right);
 
-            Instantiate(
-                trees[Random.Range(0, trees.Length)],
-                new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2 + 40, verticalDisplacement - 2 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2),
-                Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right));
+            //right item
+            side = GetOneRoadSideObject(2 * i + 1, objList);
+            side.transform.position = new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2, verticalDisplacement + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+            side.transform.rotation = Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right);
 
+            //left tree
+            tree = GetOneRoadSideObject(2 * i, treeList);
+            tree.transform.position = new Vector3(quad[0].x - (quad[0].x - quad[2].x) / 2 - 20, verticalDisplacement - 3 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+            tree.transform.rotation = Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right);
+
+            //right tree
+            tree = GetOneRoadSideObject(2 * i + 1, treeList);
+            tree.transform.position = new Vector3(quad[1].x - (quad[1].x - quad[3].x) / 2 + 40, verticalDisplacement - 2 + (quad[1].y - quad[3].y) / 2, roadPieceLength * (currentPos + 1) - roadPieceLength / 2);
+            tree.transform.rotation = Quaternion.AngleAxis(-Mathf.Rad2Deg * Mathf.Atan((quad[1].x - quad[3].x) / roadPieceLength), Vector3.up) * Quaternion.AngleAxis(Mathf.Rad2Deg * Mathf.Atan((quad[1].y - quad[3].y) / roadPieceLength), Vector3.right);
 
             currentPos++;
-          
         }
 
         SetRoadAttributes(road, ground);
+    }
+
+    public void DisableUnseenCollectables(float z)
+    {
+        foreach (Transform item in collectableList)
+        {
+            if(item.position.z < z)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
+    } 
+
+    private void CreateRoadSideObjects(List<Transform> objList, bool isTree)
+    {
+        for (int i = 0; i < 2 * numberOfRoadPiece; i++)
+        {
+            if (isTree)
+            {
+                Transform roadSideObject = Instantiate(trees[Random.Range(0, trees.Length)], transform);
+                objList.Add(roadSideObject);
+            }
+            else
+            {
+                Transform roadSideObject = Instantiate(roadSide, transform);
+                objList.Add(roadSideObject);
+            }
+        }
+    }
+
+    private Transform GetOneRoadSideObject(int index, List<Transform> objList)
+    {
+        return objList[index];
     }
 
     private void SetRoadAttributes(MeshFilter road, MeshFilter ground)
@@ -230,17 +287,21 @@ public class RoadGenerator : MonoBehaviour
 
     public void GenerateRoadExtention()
     {
-        CreateRoadPiece(numberOfRoadPiece, roadToSwap.GetComponent<MeshFilter>(), groundToSwap.GetComponent<MeshFilter>());
+        CreateRoadPiece(numberOfRoadPiece, roadToSwap.GetComponent<MeshFilter>(), groundToSwap.GetComponent<MeshFilter>(), listToSwap, treeToSwap);
 
         if(roadToSwap == roadA.transform)
         {
             roadToSwap = roadB.transform;
             groundToSwap = groundB.transform;
+            listToSwap = roadSideObjectsB;
+            treeToSwap = treesB;
         }
         else
         {
             roadToSwap = roadA.transform;
             groundToSwap = groundA.transform;
+            listToSwap = roadSideObjectsA;
+            treeToSwap = treesA;
         }
     }
 
