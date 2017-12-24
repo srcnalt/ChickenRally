@@ -9,6 +9,8 @@ public class ChickenMovement : MonoBehaviour
     public float rotationSpeed;
     public RoadGenerator road;
 
+    public AudioClip die;
+
 	void FixedUpdate()
     {
         if (UIManager.instance.menuOn) return;

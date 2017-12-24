@@ -107,3 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c65e062154f564282f9533b64421ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chickenSounds:
+  - {fileID: 8300000, guid: 023f8af1e273ee7489f53120958a90b2, type: 3}
+  - {fileID: 8300000, guid: 4856f37a522288441bc920b85788e47a, type: 3}
+  - {fileID: 8300000, guid: aeaee9797c0418944a2258dbf7af6afd, type: 3}

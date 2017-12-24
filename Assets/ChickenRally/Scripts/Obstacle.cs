@@ -20,6 +20,9 @@ public class Obstacle : MonoBehaviour, ICollidable
         touchedObject.GetComponent<ChickenMovement>().rotationSpeed = 0;
         touchedObject.GetComponent<Animator>().SetBool("Stop", true);
 
+        touchedObject.GetComponent<AudioSource>().clip = touchedObject.GetComponent<ChickenMovement>().die;
+        touchedObject.GetComponent<AudioSource>().Play();
+
         UIManager.instance.gameOver.GetComponent<Animator>().Play("GameOver");
 
         StartCoroutine(Camera.main.GetComponent<CameraMovement>().Shake());

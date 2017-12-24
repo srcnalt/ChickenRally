@@ -165,7 +165,7 @@ public class RoadGenerator : MonoBehaviour
             trianglesGround[i * 6 + 4] = i * 4 + 2;
             trianglesGround[i * 6 + 5] = i * 4 + 3;
 
-            if (Random.Range(1, 10) % 3 == 0 && i % 2 == 0 && i > 3)
+            if (Random.Range(1, 10) % 3 == 0 && currentPos > 3)
             {
                 Transform collectable = null;
 
